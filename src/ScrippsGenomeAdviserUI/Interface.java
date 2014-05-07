@@ -140,7 +140,7 @@ public void OpenFile() {
                     fiftyLines.arrayOfLines = new ArrayList<ScrippsGenomeAdviserUI.Reader>();
                     for(int i=0;i<1;i++) {  
                        line = bReader.readLine();
-                       String l = "";
+                       String header = "";
                        /*
                         * Check to see if this is a SG-ADviser line:
                         */
@@ -152,21 +152,21 @@ public void OpenFile() {
                                  * Check to see if the line ends in comments (did it come out of UI already)
                                  */
                                 if (line.contains("Comments")) {
-                                      l = "Index".concat("\t");
+                                      header = "Index".concat("\t");
                                       analysedFile = true;
                                       String [] tempL = line.split("\t");
                                       for (int ij =0; ij<tempL.length; ij++) {
                                           if (tempL[ij].contains("Index")) {
                                               indexColumnNumber = ij;
                                           } else {
-                                              l = l.concat(tempL[ij]).concat("\t");
+                                              header = header.concat(tempL[ij]).concat("\t");
                                           }
                                       }
                                 } else {
-                                      l = "Imported_Genotypes" + "\t" + "Index" + "\t" + line;
+                                      header = "Imported_Genotypes" + "\t" + "Index" + "\t" + line;
                                  }
                                 
-                                fiftyLines.head = new Header(l);
+                                fiftyLines.head = new Header(header);
                        }
                        
                    }
@@ -185,12 +185,12 @@ public void OpenFile() {
 
             int datacount = 0; 
 
-            for (int in=1; in<1001; in++) {
+            for (int line_count=1; line_count<1001; line_count++) {
 
 
-                        String n = null;             
-                        n = bReader.readLine();
-                        if (n == null){
+                        String current_line = null;             
+                        current_line = bReader.readLine();
+                        if (current_line == null){
                             ShowTable.onlyPage = 1;
                             /*
                              * Less then 1000 lines, remove next/previous pages
@@ -201,10 +201,10 @@ public void OpenFile() {
 
                             //if user tries to load a previously annotated file, get rid of the old index
                             if (analysedFile) {
-                                String[] tempLine = n.split("\t");
-                                String nt = Integer.toString(in).concat("\t");
-                                for (int st = 0; st<indexColumnNumber; st++) {
-                                    nt = nt.concat(tempLine[st]).concat("\t");
+                                String[] tempLine = current_line.split("\t");
+                                String nt = Integer.toString(line_count).concat("\t");
+                                for (int old_index = 0; old_index<indexColumnNumber; old_index++) {
+                                    nt = nt.concat(tempLine[old_index]).concat("\t");
                                 } 
                                 for (int st2 = indexColumnNumber+1; st2<tempLine.length; st2++) {
                                     nt = nt.concat(tempLine[st2]).concat("\t");
@@ -212,17 +212,18 @@ public void OpenFile() {
                                 ScrippsGenomeAdviserUI.Reader ob1 = new ScrippsGenomeAdviserUI.Reader(nt);
                                 fiftyLines.arrayOfLines.add(ob1);
                             } else {
-                                String nt; 
-                                nt = "N/A" + "\t" + in + "\t" + n;
-                                ScrippsGenomeAdviserUI.Reader ob1 = new ScrippsGenomeAdviserUI.Reader(nt);
+                                current_line = "N/A" + "\t" + line_count + "\t" + current_line;
+                                
+                                // Insert current line with index into the Reader object
+                                ScrippsGenomeAdviserUI.Reader ob1 = new ScrippsGenomeAdviserUI.Reader(current_line);
                                 fiftyLines.arrayOfLines.add(ob1);
                             }
                    }
             }
 
             //Save the original object for future reference (Undo button)
-            ShowTable nt = new ShowTable();
-            nt.intoVector(fiftyLines);
+            ShowTable first_table = new ShowTable();
+            first_table.intoVector(fiftyLines);
 
             ReadFile rf = new ReadFile(file);
             threadExecutor = Executors.newFixedThreadPool(1);
@@ -423,7 +424,7 @@ public void StatsActionPerformed(java.awt.event.ActionEvent evt) {
 
 public void HelpActionPerformed(java.awt.event.ActionEvent evt) {  
     
-           new Help().setVisible(true);
+            new HelpMenu().setVisible(true);
      
 }   
 

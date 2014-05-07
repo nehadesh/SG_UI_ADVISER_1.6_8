@@ -126,13 +126,13 @@ public class ReadFile extends JFrame implements Runnable {
                     while((line = bReader.readLine()) != null) {
                           
                          datacount++;
-                         String nt;
+                         
                            //adding an index plus first element needs to be an empty space for future adition of imported genotypes
                          //Index is needed in the table view so i will know which 
                          //line to edit in the dataset
-                          nt = "N/A" + "\t" + datacount + "\t" + line;
+                         String  current_line = "N/A" + "\t" + datacount + "\t" + line;
                      
-                           ScrippsGenomeAdviserUI.Reader ob1 = new ScrippsGenomeAdviserUI.Reader(nt);
+                           ScrippsGenomeAdviserUI.Reader ob1 = new ScrippsGenomeAdviserUI.Reader(current_line);
                            arrayOfLines.add(ob1);
                   
                            if (datacount%100000 == 0){
@@ -154,7 +154,7 @@ public class ReadFile extends JFrame implements Runnable {
                     Logger.getLogger(ReadFile.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-               //Trip the array in case if big files are loaded
+               //Trim the array in case if big files are loaded
                arrayOfLines.trimToSize(); 
                progressBar.setValue(100);
                progressBar.setStringPainted(true);             

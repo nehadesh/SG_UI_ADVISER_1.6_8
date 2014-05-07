@@ -388,7 +388,7 @@ public static void PredClinical() {
      
      //find which is the column named ACMG_Clinical...
       for (int i=0; i<ShowTable.columnNames.length; i++) {
-            if (ShowTable.columnNames[i].contains("ACMG_Score_Clinical")) {
+            if (ShowTable.columnNames[i].contains("ADVISER_Score_Clinical")) {
                 System.out.println("We will be selecting by coulmn: ");
                 System.out.println(ShowTable.columnNames[i]);
                 colForSort = i;
@@ -462,8 +462,8 @@ public static void PredResearch() {
      
      //find which is the column named ACMG_Clinical...
       for (int i=0; i<ShowTable.columnNames.length; i++) {
-            if (ShowTable.columnNames[i].contains("ACMG_Score_Research")) {
-                System.out.println("We will be selecting by coulmn: ");
+            if (ShowTable.columnNames[i].contains("ADVISER_Score_Research")) {
+                System.out.println("We will be selecting by column: ");
                 System.out.println(ShowTable.columnNames[i]);
                 colForSort = i;
             }

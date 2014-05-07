@@ -154,7 +154,7 @@ public class ShowTable extends javax.swing.JFrame implements Runnable {
 
     public void intoVector(Interface ob){
         
-            tableStatus =1;
+           tableStatus =1;
   
            ArrayList<ScrippsGenomeAdviserUI.Reader> arrayOfLines = ob.arrayOfLines;
            
@@ -255,33 +255,33 @@ public static void into2DArrayFilterData (ArrayList<ScrippsGenomeAdviserUI.Reade
         for(int j=0; j<counter; j++){   
              filterCounter++;   
              String  lines = af.get(j).fileRow;
-              String[] r2 = lines.split("\t");
-              int size1 = r2.length;
+              String[] line_as_array = lines.split("\t");
+              int lenght_of_line = line_as_array.length;
               
               //Make sure this file has as many columns as the header
-              if (columns.length >= size1) {             
+              if (columns.length >= lenght_of_line) {             
                     //if there is no comment fill that cell with null
-                    for (int c = 0; c<size1; c++) {
-                        dataFilter[j][c] = r2[c];
+                    for (int c = 0; c<lenght_of_line; c++) {
+                        dataFilter[j][c] = line_as_array[c];
                     }
 
-                    if (columns.length > size1) {
-                        dataFilter[j][size1] = ""; 
+                    if (columns.length > lenght_of_line) {
+                        dataFilter[j][lenght_of_line] = ""; 
                     }
               } else  {
-                 System.out.println("This looks like a corupted file! Lenght of this line is: " + size1 + " but we should have only " + columns.length + " columns.");
+                 System.out.println("This looks like a corupted file! Lenght of this line is: " + lenght_of_line + " but we should have only " + columns.length + " columns.");
                  System.out.println(lines);
            }
             }
  
-        String a = FilterFunctions.filterName.get(FilterFunctions.currentArray);
-             createContentTable(dataFilter, columns, "Filtered file by  " + a);
+        String filter_name = FilterFunctions.filterName.get(FilterFunctions.currentArray);
+        createContentTable(dataFilter, columns, "Filtered file by  " + filter_name);
 }
         
     public static void createContentTable(final Object[][] data, String[] headArray, String title){ 
         columns = headArray;  
         columnNames = headArray;
-        final JTable table = new JTable( data, headArray );
+        final JTable table = new JTable(data, headArray );
         table.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
         table.setAutoCreateRowSorter(true);
         // Set the height of all rows to 32 pixels high,
@@ -360,7 +360,7 @@ public static void into2DArrayFilterData (ArrayList<ScrippsGenomeAdviserUI.Reade
     int ij = ShowTable.arrayOfArrays.size();
      if (ij >0) { 
      ArrayList<ScrippsGenomeAdviserUI.Reader> tempArray = new ArrayList<ScrippsGenomeAdviserUI.Reader>();
-              tempArray = ShowTable.arrayOfArrays.get(FilterFunctions.currentArray);
+     tempArray = ShowTable.arrayOfArrays.get(FilterFunctions.currentArray);
      int arrayLenght = tempArray.size();
      int finalPage;
      int pag = (int) arrayLenght/1000;  
@@ -1008,8 +1008,8 @@ public static JMenuBar createMenuBar() {
       spliceVar.setToolTipText("Coding Variants plus variants annotated to damaged splice donor and acceptor sites.");
       codingVarFreq.setToolTipText("Coding and Splice Variants plus a user defined frequency threshold in as observed in the 1000 Genomes, 69 publically available Complete Genomics genomes and the Scripps Wellderly population.");
       knownDisease.setToolTipText("'1' values of the ACMG-Score columns.");
-      predClinical.setToolTipText("All entries in the column 'ACMG Score Clinical/Disease Entry/Explanation' receiving a modified ACMG categorization of 1, 2, or 2*. See http://genomics.scripps.edu/ADVISER/ACMG.jsp for ACMG scoring criteria.");
-      predResearch.setToolTipText("All entries in the column 'ACMG Score Research/Disease Entry/Explanation' receiving a modified ACMG categorization of 1, 2 and 2*. See http://genomics.scripps.edu/ADVISER/ACMG.jsp for ACMG scoring criteria.");
+      predClinical.setToolTipText("All entries in the column 'ADVISER Score Clinical/Disease Entry/Explanation' receiving a modified ADVISER categorization of 1, 2, or 2*. See http://genomics.scripps.edu/ADVISER/ADVISER_score.jsp for ADVISER scoring criteria.");
+      predResearch.setToolTipText("All entries in the column 'ADVISER Score Research/Disease Entry/Explanation' receiving a modified ADVISER categorization of 1, 2 and 2*. See http://genomics.scripps.edu/ADVISER/ADVISER_score.jsp for ADVISER scoring criteria.");
       cancerGenes.setToolTipText("All genes annotated as cancer genes by either the Sanger Cancer Gene Census, Memorial Sloan Kettering Cancer Center or Atlas Oncology.");
       pharmacogenetic.setToolTipText("All variants curated by PharmGKB.");
       truncatedVariants.setToolTipText("All Frameshift and Nonsense variants.");
@@ -1095,7 +1095,7 @@ public static JMenuBar createMenuBar() {
 
       });
       
-            previousFilter.addActionListener(new java.awt.event.ActionListener() {
+     previousFilter.addActionListener(new java.awt.event.ActionListener() {
           @Override
            public void actionPerformed(java.awt.event.ActionEvent evt) {
             
@@ -1488,7 +1488,7 @@ public static JMenuBar createMenuBar() {
 
 public static void HelpActionPerformed(java.awt.event.ActionEvent evt) {  
     
-           new Help().setVisible(true);
+            new HelpMenu().setVisible(true);
      
 }   
 
@@ -1684,7 +1684,7 @@ public static void  KnownDiseaseActionPerformed(java.awt.event.ActionEvent evt) 
 }
 
 public static void  PredClinicalActionPerformed(java.awt.event.ActionEvent evt) {
-      FilterFunctions rf2 = new FilterFunctions("ACMG_clinical");
+      FilterFunctions rf2 = new FilterFunctions("ADVISER_clinical");
       threadExecutor = Executors.newFixedThreadPool(1);
       threadExecutor.execute(rf2);
       threadExecutor.shutdown();  
@@ -1692,7 +1692,7 @@ public static void  PredClinicalActionPerformed(java.awt.event.ActionEvent evt) 
 }
 
 public static void  PredResearchActionPerformed(java.awt.event.ActionEvent evt) {  
-      FilterFunctions rf2 = new FilterFunctions("ACMG_research");
+      FilterFunctions rf2 = new FilterFunctions("ADVISER_research");
       threadExecutor = Executors.newFixedThreadPool(1);
       threadExecutor.execute(rf2);
       threadExecutor.shutdown(); 
