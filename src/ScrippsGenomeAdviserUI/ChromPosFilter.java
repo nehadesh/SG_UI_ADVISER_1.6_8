@@ -9,7 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 /**
- *
+ *5/9/2014
  * @author gerikson
  */
 public class ChromPosFilter extends JFrame {
